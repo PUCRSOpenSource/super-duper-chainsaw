@@ -1,12 +1,16 @@
-# super-duper-chainsaw
+# Laboratório de Redes de Computadores
 
-Definição do Primeiro Trabalho
-O trabalho consiste em desenvolver um monitor de rede para geração de estatísticas e
-alertas sobre o tráfego da rede. O monitor deve apresentar as informações sobre o tráfego
-através de uma interface textual ou gráfica. O usuário deve informar a interface que deseja
-monitorar ao iniciar a execução do monitor. A interface escolhida deve ser configurada
-para o modo promíscuo. O monitor deve ser implementado em C ou C++, usando socket
-raw, e deve implementar as seguintes funcionalidades:
+## Definição do Primeiro Trabalho
+
+O trabalho consiste em desenvolver um monitor de rede para geração de 
+estatísticas e alertas sobre o tráfego da rede. O monitor deve 
+apresentar as informações sobre o tráfego através de uma interface
+textual ou gráfica. O usuário deve informar a interface que deseja
+monitorar ao iniciar a execução do monitor. A interface escolhida deve
+ser configurada para o modo promíscuo. O monitor deve ser implementado
+em C ou C++, usando socket raw, e deve implementar as seguintes
+funcionalidades:
+
 - **Geral**
    - Apresentar min/max/média do tamanho dos pacotes recebidos
 - **Nível de Enlace**
