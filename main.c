@@ -6,12 +6,12 @@
 #include <string.h>
 #include <unistd.h>
 #include <limits.h>
+#include <byteswap.h>
 
 #include <net/if.h>
 #include <netinet/ether.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
-#include <net/if_arp.h>
 
 #include <netinet/in_systm.h>
 
@@ -100,12 +100,21 @@ int main(int argc,char *argv[])
 			max_size = size;
 		if(size < min_size)
 			min_size = size;
-		if(eth_header->ether_type == 0x0608)
-			printf("arp %d\n", arp_header->ar_op);
+		if(eth_header->ether_type == 0x0608){
+			int op = arp_header->ar_op;
+			if (op == 0x0100)
+				printf("request\n");
+			
+			else if (op == 0x0200)
+				printf("reply\n");
+				
+			/*printf("arp %X\n", arp_header->ar_op);*/
+		}
 		if(eth_header->ether_type == 0x0008)
 			printf("ip %d\n", ip_header->protocol);
 		/*printf("arp: %d\n",arp_header->arp_op);*/
 		/*else if(eth_header->ether_type == ETHERTYPE_IP)*/
 			/*printf("IP: %d\n",eth_header->ether_type);*/
 	}
+
 }
