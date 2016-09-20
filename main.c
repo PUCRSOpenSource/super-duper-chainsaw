@@ -100,17 +100,16 @@ int main(int argc,char *argv[])
 			max_size = size;
 		if(size < min_size)
 			min_size = size;
-		if(eth_header->ether_type == 0x0608){
+		u_int16_t ether_type = eth_header->ether_type;
+		if(ether_type == 0x0608 || ether_type == 0x0806){
 			int op = arp_header->ar_op;
-			if (op == 0x0100)
-				printf("request\n");
+			if (op == 0x0100 || op == 0x0001)
+				++arp_req_count;
 			
-			else if (op == 0x0200)
-				printf("reply\n");
-				
-			/*printf("arp %X\n", arp_header->ar_op);*/
+			else if (op == 0x0200 || op == 0x0002)
+				++arp_rep_count;
 		}
-		if(eth_header->ether_type == 0x0008)
+		if(ether_type == 0x0008 || ether_type == 0x0800)
 			printf("ip %d\n", ip_header->protocol);
 		/*printf("arp: %d\n",arp_header->arp_op);*/
 		/*else if(eth_header->ether_type == ETHERTYPE_IP)*/
