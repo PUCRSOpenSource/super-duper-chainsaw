@@ -22,7 +22,11 @@ int main(int argc,char *argv[])
 	}
 
 	setup(argv);
-	receiver();
+	pthread_t receiver_thread, report_thread;
+	pthread_create(&receiver_thread, NULL, receiver, NULL);
+	pthread_create(&report_thread, NULL, generate_report, NULL);
+	pthread_exit(NULL);
+	return(0);
 }
 
 void setup(char* options[])
@@ -51,7 +55,7 @@ void setup(char* options[])
 	ioctl(sockd, SIOCSIFFLAGS, &ifr);
 }
 
-void receiver(void)
+void* receiver(void)
 {
 	while (1)
 	{
@@ -70,7 +74,6 @@ void receiver(void)
 			arp_handler();
 		if(ether_type == 0x0800)
 			ip_handler();
-		generate_report();
 	}
 }
 
@@ -263,38 +266,42 @@ void report_application_layer(FILE* report)
 	fprintf(report, "\t\t\t</div>\n");
 }
 
-void generate_report()
+void* generate_report()
 {
-	FILE* report = fopen("main.html", "w");
-	if(report_file == NULL)
+	while(1)
 	{
-		printf("Error options report file!\n");
-		exit(1);
+		FILE* report = fopen("main.html", "w");
+		if(report_file == NULL)
+		{
+			printf("Error options report file!\n");
+			exit(1);
+		}
+		fprintf(report, "<!DOCTYPE html>\n");
+		fprintf(report, "<html>\n");
+		fprintf(report, "\t<head>\n");
+		fprintf(report, "\t\t<meta charset='utf-8'>\n");
+		fprintf(report, "\t\t<meta name='viewport' content='width=device-width, initial-scale=1'>\n");
+		fprintf(report, "\t\t<title>Network Monitor - Diego Jornada</title>\n");
+		fprintf(report, "\t\t<link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.css'>\n");
+		fprintf(report, "\t</head>\n");
+		fprintf(report, "\t<body>\n");
+	
+		report_header(report);
+	
+		fprintf(report, "\t\t<div class='container'>\n");
+	
+		report_general(report);
+		report_data_link_layer(report);
+		report_network_layer(report);
+		report_transport_layer(report);
+		report_application_layer(report);
+	
+		fprintf(report, "\t\t</div>\n");
+	
+	
+		fprintf(report, "\t</body>\n");
+		fprintf(report, "<html>\n");
+		fclose(report);
+		sleep(1);
 	}
-	fprintf(report, "<!DOCTYPE html>\n");
-	fprintf(report, "<html>\n");
-	fprintf(report, "\t<head>\n");
-	fprintf(report, "\t\t<meta charset='utf-8'>\n");
-	fprintf(report, "\t\t<meta name='viewport' content='width=device-width, initial-scale=1'>\n");
-	fprintf(report, "\t\t<title>Network Monitor - Diego Jornada</title>\n");
-	fprintf(report, "\t\t<link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.css'>\n");
-	fprintf(report, "\t</head>\n");
-	fprintf(report, "\t<body>\n");
-
-	report_header(report);
-
-	fprintf(report, "\t\t<div class='container'>\n");
-
-	report_general(report);
-	report_data_link_layer(report);
-	report_network_layer(report);
-	report_transport_layer(report);
-	report_application_layer(report);
-
-	fprintf(report, "\t\t</div>\n");
-
-
-	fprintf(report, "\t</body>\n");
-	fprintf(report, "<html>\n");
-	fclose(report);
 }
