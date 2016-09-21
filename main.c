@@ -1,7 +1,6 @@
 #include "main.h"
 
 void setup(char* options[]);
-void receiver(void);
 void arp_handler(void);
 void ip_handler(void);
 void icmp_handler(void);
@@ -9,7 +8,8 @@ void tcp_handler(void);
 void udp_handler(void);
 void payload_handler(unsigned char* data, int size);
 void count_application_layer_protocol(unsigned int port_number);
-void generate_report(void);
+void* generate_report();
+void* receiver();
 
 float calculate_percentage(int counter);
 
@@ -189,7 +189,7 @@ float calculate_percentage(int counter)
 
 void report_header(FILE* report)
 {
-	fprintf(report, "\t\t<div class='jumbotron text-center'>\n");
+	fprintf(report, "\t\t<div class='text-center'>\n");
 	fprintf(report, "\t\t\t<h1>Network Monitor</h1>\n");
 	fprintf(report, "\t\t</div>\n");
 }
@@ -271,7 +271,7 @@ void* generate_report()
 	while(1)
 	{
 		FILE* report = fopen("main.html", "w");
-		if(report_file == NULL)
+		if(report == NULL)
 		{
 			printf("Error options report file!\n");
 			exit(1);
