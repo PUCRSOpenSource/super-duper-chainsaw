@@ -186,6 +186,91 @@ float calculate_percentage(int counter)
 
 void report_header(FILE* report)
 {
+	fprintf(report, "\t\t<div class='jumbotron text-center'>\n");
+	fprintf(report, "\t\t\t<h1>Network Monitor</h1>\n");
+	fprintf(report, "\t\t</div>\n");
+}
+
+void report_general(FILE* report)
+{
+	fprintf(report, "\t\t\t<div class='col-md-6'>\n");
+	fprintf(report, "\t\t\t\t<h3>Geral</h3>\n");
+	fprintf(report, "\t\t\t\t<div class='row'>\n");
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Mínimo: </span> <span class='col-md-4'>%d</span>\n",min_size);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Máximo: </span> <span class='col-md-4'>%d</span>\n", max_size);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Média: </span>  <span class='col-md-4'>%.2f</span>\n", avg_size);
+	fprintf(report, "\t\t\t\t</div>\n");
+	fprintf(report, "\t\t\t</div>\n");
+}
+
+void report_data_link_layer(FILE* report)
+{
+	fprintf(report, "\t\t\t<div class='col-md-6'>\n");
+	fprintf(report, "\t\t\t\t<h3>Nível de Enlace</h3>\n");
+	fprintf(report, "\t\t\t\t<div class='row'>\n");
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>ARP Requests: </span>    <span class='col-md-4'>%d</span>\n",   arp_req_count);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>ARP Replies: </span>     <span class='col-md-4'>%d</span>\n",   arp_rep_count);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>ARP Requests(%): </span> <span class='col-md-4'>%.2f</span>\n", arp_req_percent);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>ARP Replies(%): </span>  <span class='col-md-4'>%.2f</span>\n", arp_rep_percent);
+	fprintf(report, "\t\t\t\t</div>\n");
+	fprintf(report, "\t\t\t</div>\n");
+}
+
+void report_network_layer(FILE* report)
+{
+	fprintf(report, "\t\t\t<div class='col-md-6'>\n");
+	fprintf(report, "\t\t\t\t<h3>Nível de Rede</h3>\n");
+	fprintf(report, "\t\t\t\t<div class='row'>\n");
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes ICMP: </span>            <span class='col-md-4'>%d</span>\n",   icmp_count);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>ICMP Echo Requests: </span>      <span class='col-md-4'>%d</span>\n",   icmp_req_count);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>ICMP Echo Replies: </span>       <span class='col-md-4'>%d</span>\n",   icmp_rep_count);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>ICMP Echo Requests(%): </span>   <span class='col-md-4'>%.2f</span>\n", icmp_req_percent);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Echo Replies(%): </span>         <span class='col-md-4'>%.2f</span>\n", icmp_rep_percent);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>IPs mais Acessados: </span>      <span class='col-md-4'>-</span>\n");
+	fprintf(report, "\t\t\t\t</div>\n");
+	fprintf(report, "\t\t\t</div>\n");
+}
+
+void report_transport_layer(FILE* report)
+{
+	fprintf(report, "\t\t\t<div class='col-md-6'>\n");
+	fprintf(report, "\t\t\t\t<h3>Nível de Transporte</h3>\n");
+	fprintf(report, "\t\t\t\t<div class='row'>\n");
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes TCPs: </span>              <span class='col-md-4'>%d</span>\n", tcp_count);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes UDPs: </span>              <span class='col-md-4'>%d</span>\n", udp_count);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>TCPs Iniciadas: </span>            <span class='col-md-4'>%d</span>\n", tcp_conns);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes TCPs(%): </span>           <span class='col-md-4'>%.2f</span>\n", tcp_percent);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes UDPs(%): </span>           <span class='col-md-4'>%.2f</span>\n", udp_percent);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Portas TCP mais acessadas: </span> <span class='col-md-4'>-</span>\n");
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Portas UDP mais acessadas: </span> <span class='col-md-4'>-</span>\n");
+	fprintf(report, "\t\t\t\t</div>\n");
+	fprintf(report, "\t\t\t</div>\n");
+}
+
+void report_application_layer(FILE* report)
+{
+	fprintf(report, "\t\t\t<div class='col-md-6'>\n");
+	fprintf(report, "\t\t\t\t<h3>Nível de Aplicação</h3>\n");
+	fprintf(report, "\t\t\t\t<div class='row'>\n");
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes HTTP: </span>         <span class='col-md-4'>%d</span>\n",   http_count);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes HTTPS: </span>        <span class='col-md-4'>%d</span>\n",   https_count);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes DNS: </span>          <span class='col-md-4'>%d</span>\n",   dns_count);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes HTTP(%): </span>      <span class='col-md-4'>%.2f</span>\n", http_percent);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes HTTPS(%): </span>     <span class='col-md-4'>%.2f</span>\n", https_percent);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes DNS(%): </span>       <span class='col-md-4'>%.2f</span>\n", dns_percent);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Sites mais Acessados: </span> <span class='col-md-4'>-</span>\n");
+	fprintf(report, "\t\t\t\t</div>\n");
+	fprintf(report, "\t\t\t</div>\n");
+}
+
+void generate_report()
+{
+	FILE* report = fopen("main.html", "w");
+	if(report_file == NULL)
+	{
+		printf("Error options report file!\n");
+		exit(1);
+	}
 	fprintf(report, "<!DOCTYPE html>\n");
 	fprintf(report, "<html>\n");
 	fprintf(report, "\t<head>\n");
@@ -195,19 +280,21 @@ void report_header(FILE* report)
 	fprintf(report, "\t\t<link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.css'>\n");
 	fprintf(report, "\t</head>\n");
 	fprintf(report, "\t<body>\n");
-	fprintf(report, "\t\t<div class='jumbotron text-center'>\n");
-	fprintf(report, "\t\t\t<h1>Network Monitor</h1>\n");
-	fprintf(report, "\t\t</div>\n");
-}
 
-void generate_report()
-{
-	FILE* report_file = fopen("main.html", "w");
-	if(report_file == NULL)
-	{
-		printf("Error options report file!\n");
-		exit(1);
-	}
-	report_header(report_file);
-	fclose(report_file);
+	report_header(report);
+
+	fprintf(report, "\t\t<div class='container'>\n");
+
+	report_general(report);
+	report_data_link_layer(report);
+	report_network_layer(report);
+	report_transport_layer(report);
+	report_application_layer(report);
+
+	fprintf(report, "\t\t</div>\n");
+
+
+	fprintf(report, "\t</body>\n");
+	fprintf(report, "<html>\n");
+	fclose(report);
 }
