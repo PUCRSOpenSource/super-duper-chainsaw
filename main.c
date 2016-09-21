@@ -210,8 +210,8 @@ void report_data_link_layer(FILE* report)
 	fprintf(report, "\t\t\t\t<div class='row'>\n");
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>ARP Requests: </span>    <span class='col-md-4'>%d</span>\n",   arp_req_count);
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>ARP Replies: </span>     <span class='col-md-4'>%d</span>\n",   arp_rep_count);
-	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>ARP Requests(%): </span> <span class='col-md-4'>%.2f</span>\n", arp_req_percent);
-	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>ARP Replies(%): </span>  <span class='col-md-4'>%.2f</span>\n", arp_rep_percent);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>ARP Requests(%%): </span> <span class='col-md-4'>%.2f</span>\n", arp_req_percent);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>ARP Replies(%%): </span>  <span class='col-md-4'>%.2f</span>\n", arp_rep_percent);
 	fprintf(report, "\t\t\t\t</div>\n");
 	fprintf(report, "\t\t\t</div>\n");
 }
@@ -224,8 +224,8 @@ void report_network_layer(FILE* report)
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes ICMP: </span>            <span class='col-md-4'>%d</span>\n",   icmp_count);
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>ICMP Echo Requests: </span>      <span class='col-md-4'>%d</span>\n",   icmp_req_count);
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>ICMP Echo Replies: </span>       <span class='col-md-4'>%d</span>\n",   icmp_rep_count);
-	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>ICMP Echo Requests(%): </span>   <span class='col-md-4'>%.2f</span>\n", icmp_req_percent);
-	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Echo Replies(%): </span>         <span class='col-md-4'>%.2f</span>\n", icmp_rep_percent);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>ICMP Echo Requests(%%): </span>   <span class='col-md-4'>%.2f</span>\n", icmp_req_percent);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Echo Replies(%%): </span>         <span class='col-md-4'>%.2f</span>\n", icmp_rep_percent);
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>IPs mais Acessados: </span>      <span class='col-md-4'>-</span>\n");
 	fprintf(report, "\t\t\t\t</div>\n");
 	fprintf(report, "\t\t\t</div>\n");
@@ -239,8 +239,8 @@ void report_transport_layer(FILE* report)
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes TCPs: </span>              <span class='col-md-4'>%d</span>\n", tcp_count);
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes UDPs: </span>              <span class='col-md-4'>%d</span>\n", udp_count);
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>TCPs Iniciadas: </span>            <span class='col-md-4'>%d</span>\n", tcp_conns);
-	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes TCPs(%): </span>           <span class='col-md-4'>%.2f</span>\n", tcp_percent);
-	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes UDPs(%): </span>           <span class='col-md-4'>%.2f</span>\n", udp_percent);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes TCPs(%%): </span>           <span class='col-md-4'>%.2f</span>\n", tcp_percent);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes UDPs(%%): </span>           <span class='col-md-4'>%.2f</span>\n", udp_percent);
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Portas TCP mais acessadas: </span> <span class='col-md-4'>-</span>\n");
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Portas UDP mais acessadas: </span> <span class='col-md-4'>-</span>\n");
 	fprintf(report, "\t\t\t\t</div>\n");
@@ -255,9 +255,9 @@ void report_application_layer(FILE* report)
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes HTTP: </span>         <span class='col-md-4'>%d</span>\n",   http_count);
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes HTTPS: </span>        <span class='col-md-4'>%d</span>\n",   https_count);
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes DNS: </span>          <span class='col-md-4'>%d</span>\n",   dns_count);
-	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes HTTP(%): </span>      <span class='col-md-4'>%.2f</span>\n", http_percent);
-	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes HTTPS(%): </span>     <span class='col-md-4'>%.2f</span>\n", https_percent);
-	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes DNS(%): </span>       <span class='col-md-4'>%.2f</span>\n", dns_percent);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes HTTP(%%): </span>      <span class='col-md-4'>%.2f</span>\n", http_percent);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes HTTPS(%%): </span>     <span class='col-md-4'>%.2f</span>\n", https_percent);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes DNS(%%): </span>       <span class='col-md-4'>%.2f</span>\n", dns_percent);
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Sites mais Acessados: </span> <span class='col-md-4'>-</span>\n");
 	fprintf(report, "\t\t\t\t</div>\n");
 	fprintf(report, "\t\t\t</div>\n");
