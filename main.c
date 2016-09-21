@@ -9,6 +9,7 @@ void tcp_handler(void);
 void udp_handler(void);
 void payload_handler(unsigned char* data, int size);
 void count_application_layer_protocol(unsigned int port_number);
+void generate_report(void);
 
 float calculate_percentage(int counter);
 
@@ -69,6 +70,7 @@ void receiver(void)
 			arp_handler();
 		if(ether_type == 0x0800)
 			ip_handler();
+		generate_report();
 	}
 }
 
@@ -157,6 +159,7 @@ void payload_handler(unsigned char* data, int size)
 	printf("size: %u\n", size);
 	printf("data[0]: %c\n", data[0]);
 }
+
 void count_application_layer_protocol(unsigned int port_number)
 {
 	if(port_number == 80)
@@ -175,7 +178,36 @@ void count_application_layer_protocol(unsigned int port_number)
 		https_percent = calculate_percentage(http_count);
 	}
 }
+
 float calculate_percentage(int counter)
 {
 	return (100 * counter) / (float)received;
+}
+
+void report_header(FILE* report)
+{
+	fprintf(report, "<!DOCTYPE html>\n");
+	fprintf(report, "<html>\n");
+	fprintf(report, "\t<head>\n");
+	fprintf(report, "\t\t<meta charset='utf-8'>\n");
+	fprintf(report, "\t\t<meta name='viewport' content='width=device-width, initial-scale=1'>\n");
+	fprintf(report, "\t\t<title>Network Monitor - Diego Jornada</title>\n");
+	fprintf(report, "\t\t<link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.css'>\n");
+	fprintf(report, "\t</head>\n");
+	fprintf(report, "\t<body>\n");
+	fprintf(report, "\t\t<div class='jumbotron text-center'>\n");
+	fprintf(report, "\t\t\t<h1>Network Monitor</h1>\n");
+	fprintf(report, "\t\t</div>\n");
+}
+
+void generate_report()
+{
+	FILE* report_file = fopen("main.html", "w");
+	if(report_file == NULL)
+	{
+		printf("Error options report file!\n");
+		exit(1);
+	}
+	report_header(report_file);
+	fclose(report_file);
 }
