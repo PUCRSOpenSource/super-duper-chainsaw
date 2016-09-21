@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include <byteswap.h>
+#include <pthread.h>
 
 #include <net/if.h>
 #include <netinet/ether.h>
