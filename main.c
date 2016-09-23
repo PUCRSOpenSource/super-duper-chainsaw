@@ -163,6 +163,8 @@ void count_application_layer_protocol(unsigned int port_number)
 		dns_count++;
 	else if(port_number == 443)
 		https_count++;
+	else if(port_number == 123)
+		https_count++;
 }
 
 void refresh_percentage()
@@ -185,6 +187,8 @@ void refresh_percentage()
 		tcp_percent = calculate_percentage(tcp_count);
 	if(udp_count)
 		udp_percent = calculate_percentage(udp_count);
+	if(ntp_count)
+		ntp_percent = calculate_percentage(ntp_count);
 }
 
 float calculate_percentage(int counter)
