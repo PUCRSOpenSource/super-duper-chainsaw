@@ -12,6 +12,7 @@ void* generate_report();
 void* receiver();
 
 float calculate_percentage(int counter);
+void refresh_percentage();
 
 int main(int argc,char *argv[])
 {
@@ -74,6 +75,8 @@ void* receiver(void)
 			arp_handler();
 		if(ether_type == 0x0800)
 			ip_handler();
+
+		refresh_percentage();
 	}
 }
 
@@ -81,16 +84,9 @@ void arp_handler()
 {
 	u_int16_t arp_operation = ntohs(arp_header->ar_op);
 	if (arp_operation == 0x0001)
-	{
 		arp_req_count++;
-		arp_req_percent = calculate_percentage(arp_rep_count);
-	}
-
 	else if (arp_operation == 0x0002)
-	{
 		arp_rep_count++;
-		arp_rep_percent = calculate_percentage(arp_rep_count);
-	}
 }
 
 void ip_handler()
@@ -110,18 +106,16 @@ void ip_handler()
 void icmp_handler()
 {
 	icmp_header = (struct icmphdr*) (buffer + (sizeof(struct ether_header) + sizeof(struct iphdr)));
-	unsigned int icmp_type = (unsigned int) icmp_header->type ;
+	unsigned int icmp_type =  (icmp_header->type);
 
 	if(icmp_type == 0x0)
 	{
 		icmp_rep_count++;
-		icmp_rep_percent = calculate_percentage(icmp_rep_count);
 	}
 
 	else if(icmp_type == 0x8)
 	{
 		icmp_req_count++;
-		icmp_req_percent = calculate_percentage(icmp_req_count);
 	}
 
 	icmp_count++;
@@ -139,7 +133,6 @@ void tcp_handler()
 	count_application_layer_protocol(tcp_dest_port);
 
 	tcp_count++;
-	tcp_percent = calculate_percentage(tcp_count);
 
 	/*int payload_size = BUFFSIZE - sizeof(struct ether_header) - (unsigned int)(ip_header->ihl)*4 - (unsigned int)tcp_header->doff*4;*/
 	/*unsigned char* payload_data = (char *) (buffer + (sizeof(struct ether_header) + sizeof(struct iphdr)) + sizeof(struct tcphdr));*/
@@ -154,7 +147,6 @@ void udp_handler()
 	count_application_layer_protocol(udp_dest_port);
 
 	udp_count++;
-	udp_percent = calculate_percentage(udp_count);
 }
 
 void payload_handler(unsigned char* data, int size)
@@ -166,20 +158,33 @@ void payload_handler(unsigned char* data, int size)
 void count_application_layer_protocol(unsigned int port_number)
 {
 	if(port_number == 80)
-	{
 		http_count++;
-		http_percent = calculate_percentage(http_count);
-	}
 	else if(port_number == 53)
-	{
 		dns_count++;
-		dns_percent = calculate_percentage(dns_count);
-	}
 	else if(port_number == 443)
-	{
 		https_count++;
-		https_percent = calculate_percentage(http_count);
-	}
+}
+
+void refresh_percentage()
+{
+	if(arp_req_count)
+		arp_req_percent = calculate_percentage(arp_rep_count);
+	if(arp_rep_count)
+		arp_rep_percent = calculate_percentage(arp_rep_count);
+	if(icmp_req_count)
+		icmp_rep_percent = calculate_percentage(icmp_rep_count);
+	if(icmp_req_count)
+		icmp_req_percent = calculate_percentage(icmp_req_count);
+	if(http_count)
+		http_percent = calculate_percentage(http_count);
+	if(dns_count)
+		dns_percent = calculate_percentage(dns_count);
+	if(https_count)
+		https_percent = calculate_percentage(https_count);
+	if(tcp_count)
+		tcp_percent = calculate_percentage(tcp_count);
+	if(udp_count)
+		udp_percent = calculate_percentage(udp_count);
 }
 
 float calculate_percentage(int counter)
