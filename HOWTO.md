@@ -9,18 +9,22 @@ A visualização das estatísticas foi feita utilizando html e css para que foss
    - Requisitos:
       - [nodejs](https://nodejs.org/en/)
       - [browsersync](https://www.browsersync.io/) 
+      -
       ```sh
 	  npm install -g browser-sync
 	  ```
       - [bower](https://bower.io/)
+      
       ```sh
 	  npm install -g bower
 	  ```
    - Instalar dependencias da visualização:
+   
       ```sh
       bower install
       ```
    - Visualização com atualizalção a cada segundo
+   
    ```sh
     browser-sync start --server --files "*.html" --index "main.html"
     ```
