@@ -267,9 +267,11 @@ void report_application_layer(FILE* report)
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes HTTP: </span>         <span class='col-md-4'>%d</span>\n",   http_count);
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes HTTPS: </span>        <span class='col-md-4'>%d</span>\n",   https_count);
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes DNS: </span>          <span class='col-md-4'>%d</span>\n",   dns_count);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes NTP: </span>          <span class='col-md-4'>%d</span>\n",   ntp_count);
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes HTTP(%%): </span>      <span class='col-md-4'>%.2f</span>\n", http_percent);
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes HTTPS(%%): </span>     <span class='col-md-4'>%.2f</span>\n", https_percent);
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes DNS(%%): </span>       <span class='col-md-4'>%.2f</span>\n", dns_percent);
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes NTP(%%): </span>       <span class='col-md-4'>%.2f</span>\n", ntp_percent);
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Sites mais Acessados: </span> <span class='col-md-4'>-</span>\n");
 	fprintf(report, "\t\t\t\t</div>\n");
 	fprintf(report, "\t\t\t</div>\n");
