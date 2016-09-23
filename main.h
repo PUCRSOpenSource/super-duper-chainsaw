@@ -30,45 +30,47 @@ int on;
 /*GENERAL*/
 int received = 0;
 
-ssize_t max_size = 0; //DONE
-ssize_t min_size = SSIZE_MAX; //DONE
+ssize_t max_size = 0;
+ssize_t min_size = SSIZE_MAX;
 int bytes_received = 0;
 
-float   avg_size = 0; //DONE
+float   avg_size = 0;
 
 /*DATA LINK LAYER*/
-unsigned int arp_rep_count   = 0; //DONE
-unsigned int arp_req_count   = 0; //DONE
+unsigned int arp_rep_count   = 0;
+unsigned int arp_req_count   = 0;
 
-float arp_rep_percent = 0; //DONE
-float arp_req_percent = 0; //DONE
+float arp_rep_percent = 0;
+float arp_req_percent = 0;
 
 /*NETWORK LAYER*/
-unsigned int icmp_count       = 0; //DONE
-unsigned int icmp_req_count   = 0; //DONE
-unsigned int icmp_rep_count   = 0; //DONE
+unsigned int icmp_count       = 0;
+unsigned int icmp_req_count   = 0;
+unsigned int icmp_rep_count   = 0;
 
 float icmp_req_percent = 0;
 float icmp_rep_percent = 0;
 
 /*TRANSPORT LAYER*/
-unsigned int tcp_count   = 0; //DONE
-unsigned int udp_count   = 0; //DONE
-unsigned int tcp_conns   = 0; //DONE
-float tcp_percent = 0; //DONE
-float udp_percent = 0; //DONE
+unsigned int tcp_count   = 0;
+unsigned int udp_count   = 0;
+unsigned int tcp_conns   = 0;
+float tcp_percent = 0;
+float udp_percent = 0;
 
 unsigned char top_tcp_ports[5];
 unsigned char top_udp_ports[5];
 
 /*APPLICATION LAYER*/
-unsigned int http_count    = 0; //DONE
-unsigned int https_count   = 0; //DONE
-unsigned int dns_count     = 0; //DONE
+unsigned int http_count    = 0;
+unsigned int https_count   = 0;
+unsigned int dns_count     = 0;
+unsigned int ntp_count     = 0;
 
 float http_percent  = 0;
 float https_percent = 0;
 float dns_percent   = 0;
+float ntp_percent   = 0;
 
 unsigned char top_sites[5];
 
