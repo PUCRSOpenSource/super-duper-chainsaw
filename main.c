@@ -130,6 +130,17 @@ void tcp_handler()
 	if(ack == 1 && syn == 0)
 		++tcp_conns;
 
+	HASH_FIND_INT(top_tcp_ports, &tcp_dest_port, port_counter_aux);
+	if(port_counter_aux)
+		port_counter_aux->counter = ++port_counter_aux->counter;
+	else
+	{
+		port_counter_aux =calloc(1, sizeof(port_counter));
+		port_counter_aux->counter = 1;
+		port_counter_aux->port = tcp_dest_port;
+		HASH_ADD_INT(top_tcp_ports, port, port_counter_aux);
+	}
+
 	count_application_layer_protocol(tcp_dest_port);
 
 	tcp_count++;
@@ -143,6 +154,17 @@ void udp_handler()
 {
 	udp_header  = (struct udphdr*)  (buffer + (sizeof(struct ether_header) + sizeof(struct iphdr)));
 	unsigned int udp_dest_port   = (unsigned int) ntohs(udp_header->dest);
+
+	HASH_FIND_INT(top_tcp_ports, &udp_dest_port, port_counter_aux);
+	if(port_counter_aux)
+		port_counter_aux->counter = ++port_counter_aux->counter;
+	else
+	{
+		port_counter_aux =calloc(1, sizeof(port_counter));
+		port_counter_aux->counter = 1;
+		port_counter_aux->port = udp_dest_port;
+		HASH_ADD_INT(top_udp_ports, port, port_counter_aux);
+	}
 
 	count_application_layer_protocol(udp_dest_port);
 
@@ -253,7 +275,7 @@ void report_transport_layer(FILE* report)
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>TCPs Iniciadas: </span>            <span class='col-md-4'>%d</span>\n", tcp_conns);
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes TCPs(%%): </span>           <span class='col-md-4'>%.2f</span>\n", tcp_percent);
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes UDPs(%%): </span>           <span class='col-md-4'>%.2f</span>\n", udp_percent);
-	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Portas TCP mais acessadas: </span> <span class='col-md-4'>-</span>\n");
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Portas TCP mais acessadas: </span> <span class='col-md-4'>%d, %d, %d, %d, %d</span>\n", top_tcp_ports[0].port, top_tcp_ports[1].port, top_tcp_ports[2].port, top_tcp_ports[3].port, top_tcp_ports[4].port);
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Portas UDP mais acessadas: </span> <span class='col-md-4'>-</span>\n");
 	fprintf(report, "\t\t\t\t</div>\n");
 	fprintf(report, "\t\t\t</div>\n");
@@ -277,10 +299,22 @@ void report_application_layer(FILE* report)
 	fprintf(report, "\t\t\t</div>\n");
 }
 
+int sort_function(port_counter *a, port_counter* b)
+{
+	if (a->counter < b->counter)
+		return -1;
+	else if (a->counter > b->counter)
+		return 1;
+	return 0;
+}
+
 void* generate_report()
 {
 	while(1)
 	{
+		HASH_SORT(top_tcp_ports, sort_function);
+		HASH_SORT(top_udp_ports, sort_function);
+
 		FILE* report = fopen("main.html", "w");
 		if(report == NULL)
 		{

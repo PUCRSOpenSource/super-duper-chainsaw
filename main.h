@@ -1,3 +1,4 @@
+#include "uthash.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -21,6 +22,15 @@
 #include <netinet/in_systm.h>
 
 #define BUFFSIZE 1518
+
+struct _port_counter {
+	int port;
+	long counter;
+	UT_hash_handle hh;
+};
+typedef struct _port_counter port_counter;
+
+port_counter* port_counter_aux;
 
 unsigned char buffer[BUFFSIZE];
 
@@ -58,8 +68,8 @@ unsigned int tcp_conns   = 0;
 float tcp_percent = 0;
 float udp_percent = 0;
 
-unsigned char top_tcp_ports[5];
-unsigned char top_udp_ports[5];
+port_counter* top_tcp_ports;
+port_counter* top_udp_ports;
 
 /*APPLICATION LAYER*/
 unsigned int http_count    = 0;
