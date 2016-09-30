@@ -155,7 +155,7 @@ void udp_handler()
 	udp_header  = (struct udphdr*)  (buffer + (sizeof(struct ether_header) + sizeof(struct iphdr)));
 	unsigned int udp_dest_port   = (unsigned int) ntohs(udp_header->dest);
 
-	HASH_FIND_INT(top_tcp_ports, &udp_dest_port, port_counter_aux);
+	HASH_FIND_INT(top_udp_ports, &udp_dest_port, port_counter_aux);
 	if(port_counter_aux)
 		port_counter_aux->counter = ++port_counter_aux->counter;
 	else
@@ -218,12 +218,23 @@ float calculate_percentage(int counter)
 	return (100 * counter) / (float)received;
 }
 
+void report_top_5(FILE* report, port_counter* used_ports, char* type)
+{
+	int i;
+	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Portas %s mais acessadas: </span> <span class='col-md-4'> ", type); 
+	for(port_counter_aux=used_ports, i=0; port_counter_aux != NULL && i < 5; port_counter_aux=port_counter_aux->hh.next, ++i) {
+		fprintf(report, "%d ", port_counter_aux->port);
+	}
+	fprintf(report, "</span>\n");
+}
+
 void report_header(FILE* report)
 {
 	fprintf(report, "\t\t<div class='text-center'>\n");
 	fprintf(report, "\t\t\t<h1>Network Monitor</h1>\n");
 	fprintf(report, "\t\t</div>\n");
 }
+
 
 void report_general(FILE* report)
 {
@@ -275,8 +286,9 @@ void report_transport_layer(FILE* report)
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>TCPs Iniciadas: </span>            <span class='col-md-4'>%d</span>\n", tcp_conns);
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes TCPs(%%): </span>           <span class='col-md-4'>%.2f</span>\n", tcp_percent);
 	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Pacotes UDPs(%%): </span>           <span class='col-md-4'>%.2f</span>\n", udp_percent);
-	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Portas TCP mais acessadas: </span> <span class='col-md-4'>%d, %d, %d, %d, %d</span>\n", top_tcp_ports[0].port, top_tcp_ports[1].port, top_tcp_ports[2].port, top_tcp_ports[3].port, top_tcp_ports[4].port);
-	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Portas UDP mais acessadas: </span> <span class='col-md-4'>-</span>\n");
+//	fprintf(report, "\t\t\t\t\t<span class='col-md-8'>Portas TCP mais acessadas: </span> <span class='col-md-4'> - </span>\n");
+	report_top_5(report, top_tcp_ports, "TCP");
+	report_top_5(report, top_udp_ports, "UDP");
 	fprintf(report, "\t\t\t\t</div>\n");
 	fprintf(report, "\t\t\t</div>\n");
 }
